@@ -439,4 +439,4 @@ look is allowed to use with sudo
 sudo look '' /root/root.txt
 5a285a9f257e45c68bb6c9f9f57d18e8
 ```
-root flag =`5a285a9f257e45c68bb6c9f9f57d18e8
+root flag = `5a285a9f257e45c68bb6c9f9f57d18e8`
