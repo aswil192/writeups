@@ -63,7 +63,7 @@ Each writeup follows a structured approach:
 5. Post-exploitation and privilege escalation
 6. Flag capture and documentation
 
-## 🔗 Download Links
+## 🔗 CTF Machine Links
 
 - [Blue - Google Drive](https://drive.google.com/open?id=11f_wsW59Dh1fGvQCNUPK70lIWzlcg44_)
 - [RickdiculouslyEasy - VulnHub](https://download.vulnhub.com/rickdiculouslyeasy/RickdiculouslyEasy.zip)
