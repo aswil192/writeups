@@ -68,6 +68,8 @@ Each writeup follows a structured approach:
 - [Blue - Google Drive](https://drive.google.com/open?id=11f_wsW59Dh1fGvQCNUPK70lIWzlcg44_)
 - [RickdiculouslyEasy - VulnHub](https://download.vulnhub.com/rickdiculouslyeasy/RickdiculouslyEasy.zip)
 - [Dripping Blues - VulnHub](https://download.vulnhub.com/drippingblues/drippingblues.ova)
+- [Lookup - TryHackMe](https://tryhackme.com/room/lookup)
+- [Ignite - TryHackMe](https://tryhackme.com/room/ignite)
 
 ## ⚠️ Disclaimer
 
