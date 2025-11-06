@@ -205,7 +205,7 @@ got flag `FLAG{Get off the high road Summer!} - 10 Points`=50/130
  ```
  scp -p 22222 -r Summer@$ip:/home /home/aswil/Trash
  ```
-we to Morty's directory 
+went to Morty's directory 
 got 2 files 
 a password protected zip and an image
 just read the image and got the password
