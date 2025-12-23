@@ -70,6 +70,7 @@ Each writeup follows a structured approach:
 - [Dripping Blues - VulnHub](https://download.vulnhub.com/drippingblues/drippingblues.ova)
 - [Lookup - TryHackMe](https://tryhackme.com/room/lookup)
 - [Ignite - TryHackMe](https://tryhackme.com/room/ignite)
+- [Basic Pentesting](https://tryhackme.com/room/basicpentestingjt)
 
 ## ⚠️ Disclaimer
 
