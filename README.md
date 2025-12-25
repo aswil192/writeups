@@ -10,6 +10,8 @@ This repository contains writeups for the following machines:
 - **[Blue](Blue.md)** - Windows machine exploiting EternalBlue (MS17-010) vulnerability
 - **[Ignite](Ignite.md)** - Linux machine featuring Fuel CMS 1.4.1 remote code execution
 - **[Lookup](Lookup.md)** - Linux machine involving username enumeration, elFinder exploitation, and PATH hijacking
+- **[[Basic Pentesting]]** - This is a machine that allows you to practise web app hacking and privilege escalation
+- **[[Library]]** - boot2root machine for FIT and bsides guatemala CTF
 
 ### VulnHub Machines
 - **[RickdiculouslyEasy 1](RickdiculouslyEasy%201.md)** - Rick and Morty themed vulnerable machine with multiple flags (130 points)
@@ -70,7 +72,8 @@ Each writeup follows a structured approach:
 - [Dripping Blues - VulnHub](https://download.vulnhub.com/drippingblues/drippingblues.ova)
 - [Lookup - TryHackMe](https://tryhackme.com/room/lookup)
 - [Ignite - TryHackMe](https://tryhackme.com/room/ignite)
-- [Basic Pentesting](https://tryhackme.com/room/basicpentestingjt)
+- [Basic Pentesting - TryHackMe](https://tryhackme.com/room/basicpentestingjt)
+- [Library - TryHackMe](https://tryhackme.com/room/bsidesgtlibrary)
 
 ## ⚠️ Disclaimer
 
