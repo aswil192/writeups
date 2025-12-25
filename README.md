@@ -10,7 +10,7 @@ This repository contains writeups for the following machines:
 - **[Blue](Blue.md)** - Windows machine exploiting EternalBlue (MS17-010) vulnerability
 - **[Ignite](Ignite.md)** - Linux machine featuring Fuel CMS 1.4.1 remote code execution
 - **[Lookup](Lookup.md)** - Linux machine involving username enumeration, elFinder exploitation, and PATH hijacking
-- **[[Basic Pentesting]](Basic Pentesting.md)** - This is a machine that allows you to practise web app hacking and privilege escalation
+- **[[Basic%20Pentesting]](Basic Pentesting.md)** - This is a machine that allows you to practise web app hacking and privilege escalation
 - **[[Library]](Library.md)** - boot2root machine for FIT and bsides guatemala CTF
 
 ### VulnHub Machines
