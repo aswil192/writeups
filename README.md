@@ -12,6 +12,7 @@ This repository contains writeups for the following machines:
 - **[Lookup](Lookup.md)** - Linux machine involving username enumeration, elFinder exploitation, and PATH hijacking
 - **[Basic Pentesting](Basic%20Pentesting.md)** - Web app hacking and privilege escalation practice
 - **[Library](Library.md)** - boot2root machine for FIT and bsides guatemala CTF
+- **[Bedrock](Bedrock.md)** - Server trouble in Bedrock
 
 ### VulnHub Machines
 - **[RickdiculouslyEasy 1](RickdiculouslyEasy%201.md)** - Rick and Morty themed vulnerable machine with multiple flags (130 points)
@@ -74,10 +75,11 @@ Each writeup follows a structured approach:
 - [Ignite - TryHackMe](https://tryhackme.com/room/ignite)
 - [Basic Pentesting - TryHackMe](https://tryhackme.com/room/basicpentestingjt)
 - [Library - TryHackMe](https://tryhackme.com/room/bsidesgtlibrary)
+- [Bedrock - TryHackMe](https://tryhackme.com/room/b3dr0ck)
 
 ## ⚠️ Disclaimer
 
-These writeups are for educational purposes only. All techniques demonstrated should only be used in authorized penetration testing environments or personal lab setups. Unauthorized access to computer systems is illegal.
+These writeups are for educational purposes only. Please focus on solving the challenge yourself rather than copying flags from here. The real learning and satisfaction come from understanding the problem and finding the solution independently.
 
 ## 📚 Learning Resources
 
